@@ -68,7 +68,7 @@ const SingleAssetPage: React.FC<{ asset: NFT }> = ({ asset }) => {
     const endOfAuction = salesOrder?.closing_date
         ? moment(`${salesOrder?.closing_date}Z`).valueOf()
         : null;
-    console.log(endOfAuction, "endOfAuction")
+
     const hideMeStyle = { display: "none !important" };
     const maxBid = findMaxBid(assetData?.orders);
     const currentBid = maxBid >= Number(asset.reserve) ? maxBid : 0;
