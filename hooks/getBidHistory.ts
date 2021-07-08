@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { utils } from "ethers";
 
+console.log(utils);
+
 
 const getBidHistory = (address: string, tokenId: string) => {
     const [bidHistory, setAsset] = useState(null);
@@ -34,7 +36,7 @@ const getBidHistory = (address: string, tokenId: string) => {
                     return false
                 }
                 if(event.event_type === "created"){
-                    startingPrice = utils.bigNumberify(event.starting_price);
+//                    startingPrice = utils.bigNumberify(event.starting_price);
                     return false
                 }
                 return true
@@ -69,11 +71,13 @@ const getBidHistory = (address: string, tokenId: string) => {
                         return false
                     }
 
+                    /*
                     // if the bid amount is less than starting price, remove item
                     if(startingPrice.gt(event.bid_amount)){
                         console.log("starting price is greater than bid amount")
                         return false
                     }
+                    */
 
                     // if the event is offered entered, return true
                     if(event.event_type === "offer_entered"){
