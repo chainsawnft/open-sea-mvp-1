@@ -22,8 +22,27 @@ const getBidHistory = (address: string, tokenId: string) => {
 
             console.log("get-data:", data);
 
+            const withdrawn = data.asset_events.filter((event)=>{
+                if(event.event_type === "bid_withdrawn"){
+                    return true;
+                }
+                return false;
+            })
+
             const filtered_data = {
                 asset_events: data.asset_events.filter((event)=>{
+                    if(withdrawn.some((w_event)=>{
+                        if(event.from_account.address !== w_event.from_account.address){
+                            return false
+                        }
+                        if(event.bid_amount !== w_event.total_price){
+                            return false;
+                        }
+                        return true;
+                    })){
+                        return false
+                    }
+
                     if(event.event_type === "offer_entered"){
                         return true;
                     }
