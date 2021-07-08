@@ -40,7 +40,7 @@ const OrderModal: React.FC<{
     reserve: string;
 }> = ({ handleClose, buyOrders, address, tokenId, reserve, asset_contract_type }) => {
 
-    console.log("buyOrders:", buyOrders)
+    console.log("buyOrders: : ", buyOrders)
     return (
     <Modal handleClose={handleClose}>
         <BuyWidgetNoSsr
