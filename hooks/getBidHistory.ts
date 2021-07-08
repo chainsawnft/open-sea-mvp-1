@@ -30,6 +30,8 @@ const getBidHistory = (address: string, tokenId: string) => {
                 return false;
             })
 
+            console.log("withdrawn-data", withdrawn)
+
             const filtered_data = {
                 asset_events: data.asset_events.filter((event)=>{
                     // if the event matches to a withdrawn bid, return false
@@ -38,12 +40,15 @@ const getBidHistory = (address: string, tokenId: string) => {
                         if(event.from_account.address !== w_event.from_account.address){
                             return false
                         }
+                        console.log("withdrawn address same");
                         // the bid amount needs to be the same as the total price withdrawn
                         if(event.bid_amount !== w_event.total_price){
                             return false;
                         }
+                        console.log("bidamount the same");
                         return true;
                     })){
+                        console.log("event withdrawn")
                         return false
                     }
 
