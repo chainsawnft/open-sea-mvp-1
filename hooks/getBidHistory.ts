@@ -26,7 +26,7 @@ const getBidHistory = (address: string, tokenId: string) => {
             var created = void 0
 
             // get all withdrawn bids so we can match them against the bids
-            const asset_events = data.asset_events.forEach((event) => {
+            const asset_events = data.asset_events.filter((event) => {
                 if(event.event_type === "bid_withdrawn"){
                     withdrawn.push(event);
                     return false
