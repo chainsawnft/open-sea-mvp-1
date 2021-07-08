@@ -20,6 +20,8 @@ const getBidHistory = (address: string, tokenId: string) => {
             );
             const data = await res.json();
 
+            console.log("get-data:", data);
+
             const filtered_data = {
                 asset_events: data.asset_events.filter((event)=>{
                     if(event.event_type === "offer_entered"){
@@ -29,7 +31,10 @@ const getBidHistory = (address: string, tokenId: string) => {
                         return true;
                     }
                     return false;
+                })
             };
+
+            console.log("filtered-data:", filtered_data);
 
             setAsset(filtered_data);
         } catch (err) {
