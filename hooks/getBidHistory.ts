@@ -22,6 +22,7 @@ const getBidHistory = (address: string, tokenId: string) => {
 
             console.log("get-data:", data);
 
+            // get all withdrawn bids so we can match them against the bids
             const withdrawn = data.asset_events.filter((event)=>{
                 if(event.event_type === "bid_withdrawn"){
                     return true;
@@ -31,10 +32,13 @@ const getBidHistory = (address: string, tokenId: string) => {
 
             const filtered_data = {
                 asset_events: data.asset_events.filter((event)=>{
+                    // if the event matches to a withdrawn bid, return false
                     if(withdrawn.some((w_event)=>{
+                        // the accounts need to be the same
                         if(event.from_account.address !== w_event.from_account.address){
                             return false
                         }
+                        // the bid amount needs to be the same as the total price withdrawn
                         if(event.bid_amount !== w_event.total_price){
                             return false;
                         }
@@ -43,12 +47,15 @@ const getBidHistory = (address: string, tokenId: string) => {
                         return false
                     }
 
+                    // if the event is offered entered, return true
                     if(event.event_type === "offer_entered"){
                         return true;
                     }
+                    // if the bid entered, return true
                     if(event.event_type === "bid_entered"){
                         return true;
                     }
+                    // otherwise return false
                     return false;
                 })
             };
