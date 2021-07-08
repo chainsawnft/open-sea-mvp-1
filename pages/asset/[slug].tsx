@@ -38,7 +38,10 @@ const OrderModal: React.FC<{
     tokenId: string;
     asset_contract_type: string;
     reserve: string;
-}> = ({ handleClose, buyOrders, address, tokenId, reserve, asset_contract_type }) => (
+}> = ({ handleClose, buyOrders, address, tokenId, reserve, asset_contract_type }) => {
+
+    console.log("buyOrders:", buyOrders)
+    return (
     <Modal handleClose={handleClose}>
         <BuyWidgetNoSsr
             handleClose={handleClose}
@@ -50,7 +53,8 @@ const OrderModal: React.FC<{
             reserve={reserve}
         />
     </Modal>
-);
+    )
+};
 
 const SingleAssetPage: React.FC<{ asset: NFT }> = ({ asset }) => {
 

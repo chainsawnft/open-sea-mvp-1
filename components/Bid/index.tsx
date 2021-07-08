@@ -20,6 +20,8 @@ const getUserName = (address: string, profiles: Profile[]): string => {
 const Bid: React.FC<{ buyOrder }> = ({ buyOrder }) => {
     const date = buyOrder.created_date;
     const profiles = useProfiles();
+
+    console.log("buyOrder:", buyOrder)
     
     return (
         <div className={styles.bid}>
