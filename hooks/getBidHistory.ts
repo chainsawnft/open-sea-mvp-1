@@ -22,18 +22,26 @@ const getBidHistory = (address: string, tokenId: string) => {
 
             console.log("get-data:", data);
 
+            const withdrawn = [];
+            var created = void 0
+
             // get all withdrawn bids so we can match them against the bids
-            const withdrawn = data.asset_events.filter((event)=>{
+            const asset_events = data.asset_events.forEach((event) => {
                 if(event.event_type === "bid_withdrawn"){
-                    return true;
+                    withdrawn.push(event);
+                    return false
                 }
-                return false;
-            })
+                if(event.event_type === "created"){
+                    created = event
+                    return false
+                }
+                return true
+            });
 
             console.log("withdrawn-data", withdrawn)
 
             const filtered_data = {
-                asset_events: data.asset_events.filter((event)=>{
+                asset_events: asset_events.filter((event)=>{
                     // if the event matches to a withdrawn bid, return false
                     if(withdrawn.some((w_event)=>{
                         // the accounts need to be the same
@@ -45,10 +53,22 @@ const getBidHistory = (address: string, tokenId: string) => {
                         if(event.bid_amount !== w_event.total_price){
                             return false;
                         }
+
+                        // if withdrawn event already has been used, return false
+                        if(w_event.matched){
+                            return false
+                        }
+                        // mark the withdrawn event as been used
+                        w_event.matched = true;
                         console.log("bidamount the same");
                         return true;
                     })){
                         console.log("event withdrawn")
+                        return false
+                    }
+
+                    // if the bid amount is less than starting price, remove item
+                    if(created.starting_price > event.bid_amount){
                         return false
                     }
 
@@ -60,6 +80,7 @@ const getBidHistory = (address: string, tokenId: string) => {
                     if(event.event_type === "bid_entered"){
                         return true;
                     }
+
                     // otherwise return false
                     return false;
                 })
