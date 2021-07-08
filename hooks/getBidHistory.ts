@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { utils } from "ethers";
+
 
 const getBidHistory = (address: string, tokenId: string) => {
     const [bidHistory, setAsset] = useState(null);
@@ -23,7 +25,7 @@ const getBidHistory = (address: string, tokenId: string) => {
             console.log("get-data:", data);
 
             const withdrawn = [];
-            var created = void 0
+            var startingPrice = void 0
 
             // get all withdrawn bids so we can match them against the bids
             const asset_events = data.asset_events.filter((event) => {
@@ -32,7 +34,7 @@ const getBidHistory = (address: string, tokenId: string) => {
                     return false
                 }
                 if(event.event_type === "created"){
-                    created = event
+                    startingPrice = utils.bigNumberify(event.starting_price);
                     return false
                 }
                 return true
@@ -68,7 +70,8 @@ const getBidHistory = (address: string, tokenId: string) => {
                     }
 
                     // if the bid amount is less than starting price, remove item
-                    if(created.starting_price > event.bid_amount){
+                    if(startingPrice.gt(event.bid_amount)){
+                        console.log("starting price is greater than bid amount")
                         return false
                     }
 
