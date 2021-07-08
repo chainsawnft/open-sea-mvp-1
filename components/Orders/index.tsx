@@ -14,6 +14,8 @@ const Orders: React.FC<{
         address,
         token_id,
     );
+
+    console.log("Orders-assetData:", assetData);
     
     var bid_list = assetData?assetData.asset_events:[];
     if(bid_list == undefined)
