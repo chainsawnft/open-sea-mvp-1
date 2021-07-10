@@ -53,21 +53,20 @@ const AssetOnSale: React.FC<{
                             <h2>{artist}</h2>
                             <h3>{name}</h3>
                         </div>
-
-                        <div className={styles.ends}>
-                            <h3>Auction Ends at</h3>
-                            <p>
-                                {salesOrder?.closing_date && onSale ? (
+                        {
+                            salesOrder?.closing_date && onSale ? (
+                            <div className={styles.ends}>
+                                <h3>Auction Ends at</h3>
+                                <p>
                                     <Countdown
                                         date={moment(
                                             `${salesOrder?.closing_date}Z`,
                                         ).valueOf()}
                                     />
-                                ) : (
-                                    "---"
-                                )}
-                            </p>
-                        </div>
+                                </p>
+                            </div>
+                            ) : null
+                        }
 
                         <div className={styles.footer}>
                             {onSale && !sold && (
