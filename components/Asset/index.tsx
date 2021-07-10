@@ -33,7 +33,9 @@ const Asset: React.FC<{
     sold,
     soldFor,
     salesOrder,
-}) => (
+}) => {
+    console.log(salesOrder);
+    return (
     <Link href={`/asset/${slug}`}>
         <a>
             <div className={styles.asset}>
@@ -90,6 +92,7 @@ const Asset: React.FC<{
             </div>
         </a>
     </Link>
-);
+    )
+};
 
 export default Asset;
