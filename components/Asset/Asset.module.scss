@@ -39,6 +39,24 @@
             }
         }
 
+        .ends {
+            h3 {
+                font-size: 12px;
+                margin: 0;
+                opacity: 0.71;
+                display: block;
+                font-weight: 500;
+            }
+            p {
+                padding: 0;
+                span {
+                    margin: 0;
+                }
+            }
+
+            margin-bottom: 24px;
+        }
+        
         a {
             color: #000;
 
