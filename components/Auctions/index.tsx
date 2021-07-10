@@ -1,4 +1,7 @@
 import Link from "next/link";
+
+import useEnrichedAssetsData from "../../hooks/useEnrichedAssetsData";
+
 import { NFT } from "../../types";
 import Asset from "../Asset";
 import styles from "./Auctions.module.scss";
@@ -19,6 +22,8 @@ const Auctions: React.FC<{
     title?: string;
     link?: string;
 }> = ({ assets, title, link }) => {
+    const enrichedAssets = useEnrichedAssetsData(assets);
+
     return (
         <main className={styles.auctions}>
             <div className={styles.headline}>
@@ -33,7 +38,7 @@ const Auctions: React.FC<{
                 </div> */}
             </div>
             <div className={styles.auctionsContainer}>
-                {assets.map(
+                {enrichedAssets.map(
                     ({
                         description,
                         imageUrl,
@@ -45,6 +50,7 @@ const Auctions: React.FC<{
                         file,
                         sold,
                         soldFor,
+                        salesOrder,
                     }) => (
                         <>
                             <Asset
@@ -59,6 +65,7 @@ const Auctions: React.FC<{
                                 name={name}
                                 reserve={reserve}
                                 file={file}
+                                salesOrder={salesOrder}
                             />
                         </>
                     ),

@@ -1,8 +1,13 @@
 import { utils } from "ethers";
 import Link from "next/link";
-import { NFTFile } from "../../types";
+import { NFTFile, OrderFromAPI } from "../../types";
 import VideoPlayer from "../VideoPlayer";
 import styles from "./Asset.module.scss";
+
+import moment from "moment";
+import Countdown from "../Countdown";
+
+
 
 const Asset: React.FC<{
     description: string;
@@ -15,6 +20,8 @@ const Asset: React.FC<{
     file?: NFTFile;
     sold?: boolean;
     soldFor: string;
+    salesOrder?: OrderFromAPI;
+
 }> = ({
     imageUrl,
     name,
@@ -25,6 +32,7 @@ const Asset: React.FC<{
     file,
     sold,
     soldFor,
+    salesOrder,
 }) => (
     <Link href={`/asset/${slug}`}>
         <a>
@@ -42,6 +50,22 @@ const Asset: React.FC<{
                         <h2>{artist}</h2>
                         <h3>{name}</h3>
                     </div>
+
+                    <div className={styles.ends}>
+                            <h3>Auction Ends at</h3>
+                            <p>
+                                {salesOrder?.closing_date && onSale ? (
+                                    <Countdown
+                                        date={moment(
+                                            `${salesOrder?.closing_date}Z`,
+                                        ).valueOf()}
+                                    />
+                                ) : (
+                                    "---"
+                                )}
+                            </p>
+                        </div>
+
                     <div className={styles.footer}>
                         {onSale && !sold && (
                             <div>
